@@ -3,7 +3,7 @@ using Scripts.Utils;
 using UnityEngine;
 using UnityEditor;
 using UnityEditor.Animations;
-
+using Scripts.Model;
 
 namespace Scripts
 {
@@ -34,9 +34,7 @@ namespace Scripts
         private Vector2 _direction;
         private Animator _animator;
         private bool _isGrounded;
-        private bool _isArmed;
         private bool _allowDoubleJump;
-        private int _coins = 0;
         private float _dropCheck = 14f;
         private Collider2D[] _interactionResult = new Collider2D[1];
         private Vector3 _groundCheckPositionDelta;
@@ -46,6 +44,10 @@ namespace Scripts
         private static readonly int verticalVelocity = Animator.StringToHash("verticalVelocity");
         private static readonly int Hit = Animator.StringToHash("hit");
         private static readonly int AttackKey = Animator.StringToHash("attack");
+        
+        private GameSession _gameSession;
+
+
 
 
         private void Awake()
@@ -54,6 +56,21 @@ namespace Scripts
             _animator = GetComponent<Animator>();
             _groundCheckPositionDelta = new Vector3(0f, -0.3f, 0f);
         }
+
+      
+        private void Start()
+        {
+            _gameSession= FindObjectOfType<GameSession>();
+            var health = GetComponent<HealthComponent>();
+            health.SetHealth(_gameSession.Data.Hp);
+            UpdateHeroWeapon();
+        }
+        public void OnHealthChange(int currentHealth)
+        {
+            _gameSession.Data.Hp = currentHealth;
+        }
+
+
         public void SetDirection(Vector2 direction)
         {
             _direction = direction;
@@ -163,7 +180,7 @@ namespace Scripts
             _playerRigid.velocity = new Vector2(_playerRigid.velocity.x, _damageJumpForce);
 
 
-           if(_coins > 0)
+           if(_gameSession.Data.Coins > 0)
             {
                 SpawnCoins();
             }
@@ -172,14 +189,14 @@ namespace Scripts
 
         public void AddCoins(int coins)
         {
-            _coins += coins;
-            Debug.Log($"Coins Added {_coins}");
+            _gameSession.Data.Coins += coins;
+            Debug.Log($"Coins Added {_gameSession.Data.Coins}");
         }
 
         private void SpawnCoins()
         {
-            var numCoinsToDispose = Mathf.Min(_coins, 5);
-            _coins -= numCoinsToDispose;
+            var numCoinsToDispose = Mathf.Min(_gameSession.Data.Coins, 5);
+            _gameSession.Data.Coins -= numCoinsToDispose;
 
             var burst = _hitParicles.emission.GetBurst(0);
             burst.count = numCoinsToDispose;
@@ -229,7 +246,7 @@ namespace Scripts
 
         public void Attack()
         {
-            if (!_isArmed) return;
+            if (!_gameSession.Data.IsArmed) return;
             _animator.SetTrigger(AttackKey);
             
         }
@@ -254,8 +271,16 @@ namespace Scripts
 
         public void ArmHero()
         {
-            _isArmed = true;
+            _gameSession.Data.IsArmed = true;
+            UpdateHeroWeapon();
             _animator.runtimeAnimatorController = _armed;
+        }
+
+        private void UpdateHeroWeapon()
+        {
+
+            _animator.runtimeAnimatorController = _gameSession.Data.IsArmed ? _armed : _disarmed;
+            
         }
 
     }
