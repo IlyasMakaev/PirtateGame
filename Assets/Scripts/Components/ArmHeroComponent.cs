@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Scripts.Creatures;
 
 
 namespace Scripts.Components

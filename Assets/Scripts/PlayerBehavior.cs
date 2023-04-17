@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Scripts.Creatures;
 using UnityEngine.InputSystem;
 
 
@@ -14,17 +15,6 @@ namespace Scripts.Components
             _playerState.SetDirection(direction);
         }
 
-     
-
-        public void OnSaySomething(InputAction.CallbackContext context)
-        {
-            if (context.canceled)
-            {
-                _playerState.SaySomething();
-            }
-
-
-        }
         public void OnInteract(InputAction.CallbackContext context)
         {
             if (context.canceled)

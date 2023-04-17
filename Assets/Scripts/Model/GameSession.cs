@@ -5,7 +5,9 @@ namespace  Scripts.Model
     internal class GameSession : MonoBehaviour
     {
         [SerializeField] private PlayerData _data;
-        public PlayerData Data => _data; 
+        public PlayerData Data => _data;
+        public LayerCheck isTouchingLayer;
+
 
         private void Awake()
         {

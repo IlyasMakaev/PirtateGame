@@ -1,24 +1,31 @@
 ﻿using UnityEngine;
 
-public class LayerCheck : MonoBehaviour
+
+namespace Scripts
 {
-    [SerializeField] LayerMask _layerCheck;
-    private Collider2D _collider2D;
-
-    public bool IsGrounded;
-
-    public void Awake()
+    public class LayerCheck : MonoBehaviour
     {
-        _collider2D = GetComponent<Collider2D>();
-    }
+        [SerializeField] LayerMask _layer;
+        [SerializeField] private bool _isTouchingLayer;
 
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        IsGrounded = _collider2D.IsTouchingLayers(_layerCheck);
-    }
+        private Collider2D _collider2D;
 
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        IsGrounded = _collider2D.IsTouchingLayers(_layerCheck);
+        public bool isTouchingLayer => _isTouchingLayer;
+
+        public void Awake()
+        {
+            _collider2D = GetComponent<Collider2D>();
+        }
+
+        private void OnTriggerStay2D(Collider2D collision)
+        {
+            _isTouchingLayer = _collider2D.IsTouchingLayers(_layer);
+        }
+
+        private void OnTriggerExit2D(Collider2D collision)
+        {
+            _isTouchingLayer = _collider2D.IsTouchingLayers(_layer);
+        }
+
     }
 }
