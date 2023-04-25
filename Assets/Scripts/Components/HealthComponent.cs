@@ -7,8 +7,9 @@ namespace Scripts.Components
     public class HealthComponent : MonoBehaviour
     {
         [SerializeField] private int _health;
-        [SerializeField] private UnityEvent _onTakeDamage;
         [SerializeField] private UnityEvent _onDie;
+        [SerializeField] private UnityEvent _onTakeDamage;
+        
         [SerializeField] private HealthChangeEvent _onChange;
         public int Health => _health;
         
@@ -17,7 +18,7 @@ namespace Scripts.Components
             _health -= damageValue;
             _onChange?.Invoke(_health);
             _onTakeDamage?.Invoke();
-            if(_health == 0)
+            if(_health <= 0)
             {
                 _onDie?.Invoke();
             }

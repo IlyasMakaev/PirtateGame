@@ -11,10 +11,12 @@ namespace Scripts.Creatures
     public class Creature : MonoBehaviour
     {
         [Header("Params")]
+        [SerializeField] private bool _invertScale;
         [SerializeField] protected float _speed;
         [SerializeField] protected float _jumpForce;
         [SerializeField] private float _damageVelocity;
         [SerializeField] private int _damage;
+        [SerializeField] private float _dropCheck = 10f;
 
         [Header("Checkers")]
         [SerializeField] protected LayerMask _groundLayer;
@@ -22,12 +24,13 @@ namespace Scripts.Creatures
         [SerializeField] private CheckCircleOverlap _attackRange;
         [SerializeField] protected SpawnListComponent _particles;
 
-        protected Rigidbody2D _rigidbody;
-        protected Vector2 _direction;
-        protected Animator _animator;
-        protected bool _isGrounded;
+        protected Rigidbody2D Rigidbody;
+        protected Vector2 DIrection;
+        protected Animator Animator;
+        protected bool IsGrounded;
         private bool _isJumping;
 
+        public static readonly int IsDeadKey = Animator.StringToHash("isDead");
         private static readonly int isGorundKey = Animator.StringToHash("isGrounded");
         private static readonly int isRunning = Animator.StringToHash("isRunning");
         private static readonly int verticalVelocity = Animator.StringToHash("verticalVelocity");
@@ -36,70 +39,71 @@ namespace Scripts.Creatures
 
         protected virtual void Awake()
         {
-            _rigidbody = GetComponent<Rigidbody2D>();
-            _animator = GetComponent<Animator>();
+            Rigidbody = GetComponent<Rigidbody2D>();
+            Animator = GetComponent<Animator>();
+          
         }
 
         protected virtual void Update()
         {
-            _isGrounded = _groundCheck.isTouchingLayer;
+            IsGrounded = _groundCheck.isTouchingLayer;
+            
         }
 
         public void SetDirection(Vector2 direction)
         {
-            _direction = direction;
+            DIrection = direction;
         }
         private void FixedUpdate()
         {
-            var xVelocity = _direction.x * _speed;
+            var xVelocity = DIrection.x * _speed;
             var yVelocity = CalculateYVelocity();
-            _rigidbody.velocity = new Vector2(xVelocity, yVelocity);
+            Rigidbody.velocity = new Vector2(xVelocity, yVelocity);
 
 
 
-            _animator.SetBool(isGorundKey, _isGrounded);
-            _animator.SetBool(isRunning, _direction.x != 0);
-            _animator.SetFloat(verticalVelocity, _rigidbody.velocity.y);
+            Animator.SetBool(isGorundKey, IsGrounded);
+            Animator.SetBool(isRunning, DIrection.x != 0);
+            Animator.SetFloat(verticalVelocity, Rigidbody.velocity.y);
 
             UpdateSpriteDirection();
         }
 
+
+        protected virtual float CalculateJumpVelocity(float yVelocity)
+        {
+
+
+            if (IsGrounded)
+            {
+                yVelocity += _jumpForce;
+                
+            }
+
+            return yVelocity;
+        }
+
         protected virtual float CalculateYVelocity()
         {
-            var yVelocity = _rigidbody.velocity.y;
-            var isJumpPressed = _direction.y > 0;
+            var yVelocity = Rigidbody.velocity.y;
+            var isJumpPressed = DIrection.y > 0;
 
-            if (_isGrounded)
+            if (IsGrounded)
             {
-               
                 _isJumping = false;
             }
 
             if (isJumpPressed)
             {
                 _isJumping= true;
-
-                var isFalling = _rigidbody.velocity.y <= 0.001f;
+                var isFalling = Rigidbody.velocity.y <= 0.001f;
                 yVelocity = isFalling ? CalculateJumpVelocity(yVelocity) : yVelocity;
 
 
             }
-            else if (_rigidbody.velocity.y > 0 && _isJumping)
+            else if (Rigidbody.velocity.y > 0 && _isJumping)
             {
                 yVelocity *= 0.5f;
-            }
-
-            return yVelocity;
-        }
-
-        protected virtual float CalculateJumpVelocity(float yVelocity)
-        {
-            
-
-            if (_isGrounded)
-            {
-                yVelocity += _jumpForce;
-                _particles.Spawn("Jump");
             }
 
             return yVelocity;
@@ -109,23 +113,24 @@ namespace Scripts.Creatures
         private void UpdateSpriteDirection()
         {
 
-            if (_direction.x > 0)
+            var multiplier = _invertScale ? -1 : 1;
+            if (DIrection.x > 0)
             {
-                transform.localScale = Vector3.one;
+                transform.localScale = new Vector3(multiplier, 1, 1);
 
 
             }
-            else if (_direction.x < 0)
+            else if (DIrection.x < 0)
             {
-                transform.localScale = new Vector3(-1, 1, 1);
+                transform.localScale = new Vector3(-1 * multiplier, 1, 1);
 
             }
         }
 
         public virtual void TakeDamage()
         {
-            _animator.SetTrigger(Hit);
-            _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, _damageVelocity);
+            Animator.SetTrigger(Hit);
+            Rigidbody.velocity = new Vector2(Rigidbody.velocity.x, _damageVelocity);
 
 
 
@@ -133,21 +138,29 @@ namespace Scripts.Creatures
 
         public virtual void Attack()
         {
-            _animator.SetTrigger(AttackKey);
+           
+            Animator.SetTrigger(AttackKey);
 
         }
 
-        public void OnAttack()
+        public void OnAttackRange()
         {
-            var gos = _attackRange.GetObjectsInRange();
-            foreach (var go in gos)
+            _attackRange.Check();
+        }
+
+
+        public void OnCollisionEnter2D(Collision2D collision)
+        {
+
+            if (collision.gameObject.IsInLayer(_groundLayer))
             {
-                var hp = go.GetComponent<HealthComponent>();
-                if (hp != null && go.CompareTag("Barrel"))
+                var contact = collision.contacts[0];
+                if (contact.relativeVelocity.y >= _dropCheck)
                 {
-                    hp.ApplyDamage(_damage);
+                    _particles.Spawn("FallDust");
                 }
             }
+
         }
 
     }

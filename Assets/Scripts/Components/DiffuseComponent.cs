@@ -19,7 +19,7 @@ public class DiffuseComponent : MonoBehaviour
 
         while(startColor != targetState)
         {
-            startColor = startColor - speed;
+            startColor -= speed;
             timeToDisapear += Time.deltaTime;
             yield return null;
         }

@@ -10,32 +10,24 @@ namespace Scripts.Creatures
 {
     public class PlayerState : Creature
     {
-
-        [SerializeField] private float _interactionRadius;
+        [SerializeField] private CheckCircleOverlap _interactionCheck;
         [SerializeField] private LayerMask _interactionLayer;
 
         [SerializeField] private ParticleSystem _hitParicles;
 
         [SerializeField] private AnimatorController _armed;
         [SerializeField] private AnimatorController _disarmed;
-
-        private float _dropCheck = 14f;
         private bool _allowDoubleJump;
+        private static readonly int ThrowKey = Animator.StringToHash("Throw");
 
-        private Collider2D[] _interactionResult = new Collider2D[1];
-        private Vector3 _groundCheckPositionDelta;
+
+
         private GameSession _gameSession;
-
-
-
-
-
-
 
         protected override void Awake()
         {
             base.Awake();
-            _groundCheckPositionDelta = new Vector3(0f, -0.3f, 0f);
+           
         }
 
 
@@ -46,6 +38,9 @@ namespace Scripts.Creatures
             health.SetHealth(_gameSession.Data.Hp);
             UpdateHeroWeapon();
         }
+
+       
+
         public void OnHealthChange(int currentHealth)
         {
             _gameSession.Data.Hp = currentHealth;
@@ -61,19 +56,10 @@ namespace Scripts.Creatures
 
         protected override float CalculateYVelocity()
         {
-            var yVelocity = _rigidbody.velocity.y;
-            var isJumpPressed = _direction.y > 0;
-
-            if (_isGrounded ) //isOnWall
+            if (IsGrounded ) //isOnWall
             {
                 _allowDoubleJump = true;
-            }
-
-            if(!isJumpPressed)//isOnwall
-            {
-                return 0f;
-            }
-
+            }   
 
             return base.CalculateYVelocity();
         }
@@ -82,11 +68,10 @@ namespace Scripts.Creatures
         {
            
      
-            if (!_isGrounded && _allowDoubleJump)
+            if (!IsGrounded && _allowDoubleJump)
             {
-                _particles.Spawn("Jump");
                 _allowDoubleJump = false;
-                yVelocity = _jumpForce;
+                return _jumpForce;
                 
             }
 
@@ -125,32 +110,10 @@ namespace Scripts.Creatures
 
         public void Interact()
         {
-            var size = Physics2D.OverlapCircleNonAlloc(
-                transform.position,
-                _interactionRadius,
-                _interactionResult,
-                _interactionLayer);
-
-            for (int i = 0; i < size; i++)
-            {
-                var interactble = _interactionResult[i].GetComponent<InteractbleComponent>();
-                if (interactble != null) interactble.Interact();
-            }
+            _interactionCheck.Check();
         }
 
-        private void OnCollisionEnter2D(Collision2D collision)
-        {
-
-            if(collision.gameObject.isInLayer(_groundLayer))
-            {
-                var contact = collision.contacts[0];
-                if(contact.relativeVelocity.y >= _dropCheck)
-                {
-                    _particles.Spawn("FallDust");
-                }
-            }
-                
-        }
+   
 
         public override void Attack()
         {
@@ -170,14 +133,24 @@ namespace Scripts.Creatures
         {
             _gameSession.Data.IsArmed = true;
             UpdateHeroWeapon();
-            _animator.runtimeAnimatorController = _armed;
+            Animator.runtimeAnimatorController = _armed;
         }
 
         private void UpdateHeroWeapon()
         {
 
-            _animator.runtimeAnimatorController = _gameSession.Data.IsArmed ? _armed : _disarmed;
+            Animator.runtimeAnimatorController = _gameSession.Data.IsArmed ? _armed : _disarmed;
             
+        }
+
+        public void OnDoThrow()
+        {
+            _particles.Spawn("Throw");
+        }
+
+        public void Throw()
+        {
+            Animator.SetTrigger(ThrowKey);
         }
 
     }

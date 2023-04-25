@@ -8,6 +8,10 @@ TagManager:
   - Gold
   - Potion
   - Barrel
+  - Enemy
+  - Interactble
+  - Dead Body
+  - Wall
   layers:
   - Default
   - TransparentFX
@@ -20,8 +24,8 @@ TagManager:
   - Ground
   - Interactables
   - Trash
-  - 
-  - 
+  - Enemy
+  - Hero
   - 
   - 
   - 
@@ -42,6 +46,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: TileMap
+    uniqueID: 1790046007
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0

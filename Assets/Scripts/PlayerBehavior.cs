@@ -17,7 +17,7 @@ namespace Scripts.Components
 
         public void OnInteract(InputAction.CallbackContext context)
         {
-            if (context.canceled)
+            if (context.performed)
             {
                 _playerState.Interact();
             }
@@ -25,9 +25,18 @@ namespace Scripts.Components
 
         public void Invoke(InputAction.CallbackContext context)
         {
-            if(context.canceled)
+            if(context.performed)
             {
+                
                 _playerState.Attack();
+            }
+        }
+
+        public void OnThrow(InputAction.CallbackContext context)
+        {
+            if(context.performed)
+            {
+                _playerState.Throw();
             }
         }
     }
