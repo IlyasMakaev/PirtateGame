@@ -12,6 +12,7 @@ TagManager:
   - Interactble
   - Dead Body
   - Wall
+  - Swords
   layers:
   - Default
   - TransparentFX
@@ -26,10 +27,10 @@ TagManager:
   - Trash
   - Enemy
   - Hero
-  - 
-  - 
-  - 
-  - 
+  - Walls
+  - Checkers
+  - PhysicalObjects
+  - Totems
   - 
   - 
   - 
@@ -51,6 +52,9 @@ TagManager:
     locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Enemy
+    uniqueID: 1405618915
     locked: 0
   - name: Layer1
     uniqueID: 80382447

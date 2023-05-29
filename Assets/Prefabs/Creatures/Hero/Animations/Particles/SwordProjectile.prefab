@@ -59,11 +59,11 @@ GameObject:
   - component: {fileID: 8688854472382890547}
   - component: {fileID: 2707339348691323856}
   - component: {fileID: 3518212321420712492}
-  - component: {fileID: 7407848755128680009}
+  - component: {fileID: 3483002545711119826}
   - component: {fileID: 6130288522829206927}
   - component: {fileID: 3143628418595648728}
   - component: {fileID: 6326188539016304079}
-  - component: {fileID: 3483002545711119826}
+  - component: {fileID: 5644793623643623910}
   m_Layer: 0
   m_Name: SwordProjectile
   m_TagString: Untagged
@@ -123,8 +123,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 80382447
-  m_SortingLayer: 1
-  m_SortingOrder: 1
+  m_SortingLayer: 2
+  m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: 76f3e100271da1a4a969db3afff03af8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -193,14 +193,14 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8688854472382890546}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 1
   m_SleepingMode: 1
@@ -222,7 +222,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.3
---- !u!114 &7407848755128680009
+--- !u!114 &3483002545711119826
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -231,10 +231,38 @@ MonoBehaviour:
   m_GameObject: {fileID: 8688854472382890546}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 061a30e5d7156d446bfda033629878b8, type: 3}
+  m_Script: {fileID: 11500000, guid: 6aa894a58cadbf542b47c7bbfd7e2972, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 0.3
+  _tag: Wall
+  _layer:
+    serializedVersion: 2
+    m_Bits: 256
+  _action:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2359997122905658594}
+        m_MethodName: Spawn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 8688854472382890547}
+        m_MethodName: SelfDestroyObject
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &6130288522829206927
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -250,7 +278,7 @@ MonoBehaviour:
   _tag: Enemy
   _layer:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 67584
   _action:
     m_PersistentCalls:
       m_Calls:
@@ -303,7 +331,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _objectToDestroy: {fileID: 8688854472382890546}
---- !u!114 &3483002545711119826
+--- !u!114 &5644793623643623910
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -312,35 +340,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 8688854472382890546}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6aa894a58cadbf542b47c7bbfd7e2972, type: 3}
+  m_Script: {fileID: 11500000, guid: 061a30e5d7156d446bfda033629878b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _tag: Wall
-  _layer:
-    serializedVersion: 2
-    m_Bits: 256
-  _action:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 8688854472382890547}
-        m_MethodName: SelfDestroyObject
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 2359997122905658594}
-        m_MethodName: Spawn
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+  _speed: 5
+  _invertX: 0

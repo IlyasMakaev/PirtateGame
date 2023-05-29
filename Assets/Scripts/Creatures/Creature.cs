@@ -4,7 +4,7 @@ using Scripts.Components;
 using Scripts;
 using UnityEngine.PlayerLoop;
 using Scripts.Model;
-
+using Scripts.Components.Audio;
 
 namespace Scripts.Creatures
 {
@@ -12,9 +12,9 @@ namespace Scripts.Creatures
     {
         [Header("Params")]
         [SerializeField] private bool _invertScale;
-        [SerializeField] protected float _speed;
+        [SerializeField] private float _speed;
         [SerializeField] protected float _jumpForce;
-        [SerializeField] private float _damageVelocity;
+        [SerializeField] private float _damageVelocity = 5f;
         [SerializeField] private int _damage;
         [SerializeField] private float _dropCheck = 10f;
 
@@ -23,10 +23,12 @@ namespace Scripts.Creatures
         [SerializeField] private LayerCheck _groundCheck;
         [SerializeField] private CheckCircleOverlap _attackRange;
         [SerializeField] protected SpawnListComponent _particles;
+        
 
         protected Rigidbody2D Rigidbody;
         protected Vector2 DIrection;
         protected Animator Animator;
+        protected PlaySoundsComponent Sounds;
         protected bool IsGrounded;
         private bool _isJumping;
 
@@ -37,10 +39,23 @@ namespace Scripts.Creatures
         private static readonly int Hit = Animator.StringToHash("hit");
         private static readonly int AttackKey = Animator.StringToHash("attack");
 
+        public float Speed
+        {
+            get 
+            { 
+                return _speed; 
+            } 
+            set 
+            {
+                _speed = value;
+            }
+        }
+
         protected virtual void Awake()
         {
             Rigidbody = GetComponent<Rigidbody2D>();
             Animator = GetComponent<Animator>();
+            Sounds = GetComponent<PlaySoundsComponent>();
           
         }
 
@@ -66,9 +81,11 @@ namespace Scripts.Creatures
             Animator.SetBool(isRunning, DIrection.x != 0);
             Animator.SetFloat(verticalVelocity, Rigidbody.velocity.y);
 
-            UpdateSpriteDirection();
+            UpdateSpriteDirection(DIrection);
         }
 
+
+        
 
         protected virtual float CalculateJumpVelocity(float yVelocity)
         {
@@ -77,10 +94,20 @@ namespace Scripts.Creatures
             if (IsGrounded)
             {
                 yVelocity += _jumpForce;
-                
+                DoJumpVFX();
+
+
+
             }
 
             return yVelocity;
+        }
+
+
+        protected void DoJumpVFX()
+        {
+            _particles.Spawn("Jump");
+            Sounds.Play("Jump");
         }
 
         protected virtual float CalculateYVelocity()
@@ -110,17 +137,17 @@ namespace Scripts.Creatures
         }
 
 
-        private void UpdateSpriteDirection()
+        public void UpdateSpriteDirection(Vector2 direction)
         {
 
             var multiplier = _invertScale ? -1 : 1;
-            if (DIrection.x > 0)
+            if (direction.x > 0)
             {
                 transform.localScale = new Vector3(multiplier, 1, 1);
 
 
             }
-            else if (DIrection.x < 0)
+            else if (direction.x < 0)
             {
                 transform.localScale = new Vector3(-1 * multiplier, 1, 1);
 
@@ -140,12 +167,14 @@ namespace Scripts.Creatures
         {
            
             Animator.SetTrigger(AttackKey);
+            Sounds.Play("Melee");
 
         }
 
         public void OnAttackRange()
         {
             _attackRange.Check();
+            
         }
 
 

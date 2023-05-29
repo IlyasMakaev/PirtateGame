@@ -41,7 +41,7 @@ namespace Scripts
 
         private void OnEnable()
         {
-            _nextFrameTime = Time.time + _secondsPerFrame;
+            _nextFrameTime = Time.time;
             _currentFrame = 0;
         }
 
@@ -62,7 +62,7 @@ namespace Scripts
 
         private void StartAnimation()
         {
-            _nextFrameTime = Time.time + _secondsPerFrame;
+            _nextFrameTime = Time.time;
             enabled = _isPlaying = true;
             _currentFrame = 0;
         }

@@ -1,0 +1,136 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!244 &-170956477488522482
+AudioMixerEffectController:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_EffectID: 7c4fabbcb049004429a538f6c2949810
+  m_EffectName: Echo
+  m_MixLevel: 17e0b307c363da246816afcaa23f0085
+  m_Parameters:
+  - m_ParameterName: Delay
+    m_GUID: 596f74a6d931e2b4789299315bcff43b
+  - m_ParameterName: Decay
+    m_GUID: 882f61c533c1b8240a5d1907485bc99e
+  - m_ParameterName: Max channels
+    m_GUID: 9d1637445e5eb784ca53f054498b203e
+  - m_ParameterName: Drymix
+    m_GUID: 7df5b6fad41641944b00d748e9affe8d
+  - m_ParameterName: Wetmix
+    m_GUID: 4ecd633036e9bfc4e85ee28c9c662b00
+  m_SendTarget: {fileID: 0}
+  m_EnableWetMix: 0
+  m_Bypass: 0
+--- !u!241 &24100000
+AudioMixerController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: MainTheme
+  m_OutputGroup: {fileID: 0}
+  m_MasterGroup: {fileID: 24300002}
+  m_Snapshots:
+  - {fileID: 24500006}
+  m_StartSnapshot: {fileID: 24500006}
+  m_SuspendThreshold: -80
+  m_EnableSuspend: 1
+  m_UpdateMode: 0
+  m_ExposedParameters: []
+  m_AudioMixerGroupViews:
+  - guids:
+    - 9469400ff9a532a489943e7b8def4c72
+    name: View
+  m_CurrentViewIndex: 0
+  m_TargetSnapshot: {fileID: 24500006}
+--- !u!243 &24300002
+AudioMixerGroupController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Master
+  m_AudioMixer: {fileID: 24100000}
+  m_GroupID: 9469400ff9a532a489943e7b8def4c72
+  m_Children: []
+  m_Volume: e3b735b8b5bbff64aae992c5a358f52c
+  m_Pitch: 6df4c674ed8d7b74e8fda43a35e9795a
+  m_Send: 00000000000000000000000000000000
+  m_Effects:
+  - {fileID: 24400004}
+  - {fileID: -170956477488522482}
+  m_UserColorIndex: 1
+  m_Mute: 0
+  m_Solo: 0
+  m_BypassEffects: 0
+--- !u!244 &24400004
+AudioMixerEffectController:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_EffectID: e699b5ce13dad8e40a3714d8fed89560
+  m_EffectName: Attenuation
+  m_MixLevel: 85a704aeb02dc9b4f8960b4a4cdeeeea
+  m_Parameters: []
+  m_SendTarget: {fileID: 0}
+  m_EnableWetMix: 0
+  m_Bypass: 0
+--- !u!245 &24500006
+AudioMixerSnapshotController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Snapshot
+  m_AudioMixer: {fileID: 24100000}
+  m_SnapshotID: 440f12f0f9c8f064ab4068aad64b2446
+  m_FloatValues:
+    4ecd633036e9bfc4e85ee28c9c662b00: 0.504
+    911a7480b7545744893dc56952be5e94: 10
+    9d1637445e5eb784ca53f054498b203e: 0
+    882f61c533c1b8240a5d1907485bc99e: 0
+    596f74a6d931e2b4789299315bcff43b: 1
+    7f18081768615f5429df882f7fdd952b: 0.1
+    ef555ae7b8e8ab748b0f954c824a24df: 0
+    e3b735b8b5bbff64aae992c5a358f52c: -0.025776558
+    7df5b6fad41641944b00d748e9affe8d: 0
+    8d1d416b20a2ebb4c94f0c9dd748de5d: 0.5
+    9e39330d5bc905f4cb1c999e749729d7: 1.2009994
+    1cc9423d3046add4fa0173ee7cca90de: -10
+    3d4a5bdf1ac5d80478ee6ed8a52b3aa8: 0.1
+  m_TransitionOverrides: {}
+--- !u!244 &5770746485225986864
+AudioMixerEffectController:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_EffectID: 47d5726cb93c6e84b8eaafc2f7ef25bc
+  m_EffectName: Chorus
+  m_MixLevel: f00a391c1a1c0924b935c14d34d4f7a7
+  m_Parameters:
+  - m_ParameterName: Dry mix
+    m_GUID: bac565c052e6dce42a1030e5b5c8ccea
+  - m_ParameterName: Wet mix tap 1
+    m_GUID: 6efd2612267185f45aa6414ea4860e64
+  - m_ParameterName: Wet mix tap 2
+    m_GUID: 654bbe0396493d74d8553e3202f624ea
+  - m_ParameterName: Wet mix tap 3
+    m_GUID: 538faaa8b38386b40bb49b3efa5f4c10
+  - m_ParameterName: Delay
+    m_GUID: 16ef2cf996798c349ae0c1241180518a
+  - m_ParameterName: Rate
+    m_GUID: 61f0caf56a627ca4b90a638b10d37347
+  - m_ParameterName: Depth
+    m_GUID: 1bafa2731ca56f54b87d76c57496767a
+  - m_ParameterName: Feedback
+    m_GUID: ff7fad98f8a4dd6409084733f8ba014f
+  m_SendTarget: {fileID: 0}
+  m_EnableWetMix: 0
+  m_Bypass: 0

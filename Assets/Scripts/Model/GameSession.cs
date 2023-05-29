@@ -6,7 +6,7 @@ namespace  Scripts.Model
     {
         [SerializeField] private PlayerData _data;
         public PlayerData Data => _data;
-        public LayerCheck isTouchingLayer;
+        //public LayerCheck isTouchingLayer;
 
 
         private void Awake()

@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 2707339348691323856}
   - component: {fileID: 3518212321420712492}
   - component: {fileID: 6580836938587347942}
-  - component: {fileID: 5336134965434396837}
+  - component: {fileID: 4704320885427457342}
   m_Layer: 0
   m_Name: StuckedSword
   m_TagString: Untagged
@@ -73,9 +73,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1790046007
-  m_SortingLayer: -1
-  m_SortingOrder: 0
+  m_SortingLayerID: 80382447
+  m_SortingLayer: 2
+  m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: 2884cc49ce9a7ae438eaf76bf0452435, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -192,8 +192,8 @@ MonoBehaviour:
   _action:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5336134965434396837}
-        m_MethodName: ArmHero
+      - m_Target: {fileID: 4704320885427457342}
+        m_MethodName: Add
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -214,7 +214,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &5336134965434396837
+--- !u!114 &4704320885427457342
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -223,6 +223,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 8688854472382890546}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd0cd41af6c67724b8f65e47d965e11a, type: 3}
+  m_Script: {fileID: 11500000, guid: 053fc5ff69ce73c47a68ff0177829eb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _id: Sword
+  _count: 1

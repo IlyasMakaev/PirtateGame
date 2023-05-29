@@ -11,6 +11,20 @@ namespace Scripts.Utils
         {
             return layer == (layer | 1 << go.layer);
         }
+
+        public static TinterfaceType GetInterface<TinterfaceType>(this GameObject go)
+        {
+            var components = go.GetComponents<Component>();
+            foreach (var component in components)
+            {
+                if (component is TinterfaceType type)
+                {
+                    return type;
+                }
+            }
+
+            return default;
+        }
     }
 }
 
